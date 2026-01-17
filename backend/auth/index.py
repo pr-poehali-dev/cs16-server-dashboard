@@ -5,6 +5,8 @@ import urllib.request
 import urllib.parse
 from datetime import datetime
 
+import psycopg2
+
 def handler(event: dict, context) -> dict:
     '''Авторизация через Steam OpenID и управление сессиями'''
     method = event.get('httpMethod', 'GET')
@@ -85,7 +87,6 @@ def handler(event: dict, context) -> dict:
             
             player = data['response']['players'][0]
             
-            import psycopg2
             conn = psycopg2.connect(os.environ['DATABASE_URL'])
             cur = conn.cursor()
             
@@ -145,7 +146,6 @@ def handler(event: dict, context) -> dict:
             }
         
         try:
-            import psycopg2
             conn = psycopg2.connect(os.environ['DATABASE_URL'])
             cur = conn.cursor()
             

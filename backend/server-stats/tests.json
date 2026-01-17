@@ -1,0 +1,18 @@
+{
+  "tests": [
+    {
+      "name": "Get server statistics",
+      "method": "GET",
+      "path": "/?action=stats",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "players_online": "number",
+        "max_players": 32,
+        "current_map": "string",
+        "ct_score": "number",
+        "t_score": "number"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

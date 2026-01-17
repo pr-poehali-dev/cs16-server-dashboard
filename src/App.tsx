@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import PublicHome from "./pages/PublicHome";
 import Index from "./pages/Index";
+import Profile from "./pages/Profile";
+import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +22,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<PublicHome />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/admin" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

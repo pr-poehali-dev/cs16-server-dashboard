@@ -69,6 +69,8 @@ def handler(event: dict, context) -> dict:
             result = cur.fetchone()
             
             if not result:
+                cur.close()
+                conn.close()
                 return {
                     'statusCode': 404,
                     'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
@@ -188,10 +190,11 @@ def handler(event: dict, context) -> dict:
             history = []
             for row in cur.fetchall():
                 history.append({
-                    'won_at': row[0].isoformat(),
-                    'name': row[1],
+                    'id': len(history) + 1,
+                    'item_name': row[1],
                     'rarity': row[2],
-                    'value': row[3]
+                    'value': row[3],
+                    'opened_at': row[0].isoformat()
                 })
             
             return {
