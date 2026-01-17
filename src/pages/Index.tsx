@@ -1,14 +1,46 @@
 import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import Icon from '@/components/ui/icon';
+import { useAuth } from '@/contexts/AuthContext';
 import DashboardTab from '@/components/server/DashboardTab';
 import PlayersTab from '@/components/server/PlayersTab';
 import CasesTab from '@/components/server/CasesTab';
 import { BansTab, MapsTab, SettingsTab } from '@/components/server/ServerTabs';
 
 export default function Index() {
+  const { user, isAdmin, loading } = useAuth();
   const [selectedTab, setSelectedTab] = useState('dashboard');
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Icon name="Loader2" className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!user || !isAdmin) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Alert className="max-w-md">
+          <Icon name="ShieldAlert" className="h-4 w-4" />
+          <AlertDescription>
+            <p className="font-medium mb-2">Доступ запрещён</p>
+            <p className="text-sm text-muted-foreground mb-4">
+              Админ-панель доступна только администраторам сервера.
+            </p>
+            <Button onClick={() => window.location.href = '/'} variant="outline" size="sm">
+              <Icon name="Home" className="mr-2 h-4 w-4" />
+              На главную
+            </Button>
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-6">
@@ -23,10 +55,16 @@ export default function Index() {
               <p className="text-sm text-muted-foreground">Server Management Dashboard</p>
             </div>
           </div>
-          <Badge variant="outline" className="text-lg px-4 py-2 border-green-500 text-green-500">
-            <Icon name="Circle" className="w-3 h-3 fill-green-500 mr-2" />
-            ONLINE
-          </Badge>
+          <div className="flex items-center gap-4">
+            <Badge variant="outline" className="text-lg px-4 py-2 border-green-500 text-green-500">
+              <Icon name="Circle" className="w-3 h-3 fill-green-500 mr-2" />
+              ONLINE
+            </Badge>
+            <div className="flex items-center gap-2">
+              <img src={user.avatar_url} alt={user.username} className="w-8 h-8 rounded-full" />
+              <span className="text-sm font-medium">{user.username}</span>
+            </div>
+          </div>
         </header>
 
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
