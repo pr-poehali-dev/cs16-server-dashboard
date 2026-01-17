@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 import { useAuth } from '@/contexts/AuthContext';
 import CaseRoulette from '@/components/CaseRoulette';
+import PrivilegesShop from '@/components/PrivilegesShop';
 import BACKEND_URLS from '../../backend/func2url.json';
 
 export default function PublicHome() {
@@ -153,60 +154,12 @@ export default function PublicHome() {
           </CardContent>
         </Card>
 
-        <section className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Способы пополнения</CardTitle>
-              <CardDescription>Пополни баланс и получи привилегии</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Icon name="CreditCard" className="h-8 w-8 text-primary" />
-                  <div>
-                    <p className="font-medium">Банковская карта</p>
-                    <p className="text-sm text-muted-foreground">Мгновенное пополнение</p>
-                  </div>
-                </div>
-                <Badge>Доступно</Badge>
-              </div>
-
-              <div className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Icon name="Smartphone" className="h-8 w-8 text-primary" />
-                  <div>
-                    <p className="font-medium">Криптовалюта</p>
-                    <p className="text-sm text-muted-foreground">BTC, ETH, USDT</p>
-                  </div>
-                </div>
-                <Badge>Доступно</Badge>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Привилегии</CardTitle>
-              <CardDescription>Доступные привилегии на сервере</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center justify-between p-3 border border-blue-500/50 rounded-lg">
-                <div>
-                  <p className="font-medium text-blue-500">VIP</p>
-                  <p className="text-sm text-muted-foreground">Доступ к VIP оружию, респавн</p>
-                </div>
-                <span className="font-mono font-bold">500₽</span>
-              </div>
-
-              <div className="flex items-center justify-between p-3 border border-purple-500/50 rounded-lg">
-                <div>
-                  <p className="font-medium text-purple-500">Premium</p>
-                  <p className="text-sm text-muted-foreground">VIP + HP/Броня, иммунитет к флешкам</p>
-                </div>
-                <span className="font-mono font-bold">1000₽</span>
-              </div>
-            </CardContent>
-          </Card>
+        <section>
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold mb-2">Привилегии сервера</h2>
+            <p className="text-muted-foreground">Выбери привилегию и получи преимущества на сервере</p>
+          </div>
+          <PrivilegesShop />
         </section>
       </main>
     </div>

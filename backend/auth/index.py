@@ -28,12 +28,14 @@ def handler(event: dict, context) -> dict:
     action = params.get('action', 'login')
     
     if method == 'GET' and action == 'login':
-        return_url = params.get('return_url', '')
+        return_url = params.get('return_url', 'http://localhost:5173/auth/callback')
+        realm = return_url.split('/auth')[0] if '/auth' in return_url else return_url
+        
         steam_openid_url = f"https://steamcommunity.com/openid/login?{urllib.parse.urlencode({
             'openid.ns': 'http://specs.openid.net/auth/2.0',
             'openid.mode': 'checkid_setup',
             'openid.return_to': return_url,
-            'openid.realm': return_url.split('/callback')[0] if '/callback' in return_url else return_url,
+            'openid.realm': realm,
             'openid.identity': 'http://specs.openid.net/auth/2.0/identifier_select',
             'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select'
         })}"

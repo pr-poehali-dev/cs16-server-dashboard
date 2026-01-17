@@ -8,6 +8,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import DashboardTab from '@/components/server/DashboardTab';
 import PlayersTab from '@/components/server/PlayersTab';
 import CasesTab from '@/components/server/CasesTab';
+import CasesAdminTab from '@/components/server/CasesAdminTab';
+import ShopAdminTab from '@/components/server/ShopAdminTab';
 import { BansTab, MapsTab, SettingsTab } from '@/components/server/ServerTabs';
 
 export default function Index() {
@@ -68,7 +70,7 @@ export default function Index() {
         </header>
 
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="space-y-6">
-          <TabsList className="grid grid-cols-3 md:grid-cols-6 gap-2 bg-muted p-2 h-auto">
+          <TabsList className="grid grid-cols-4 md:grid-cols-8 gap-2 bg-muted p-2 h-auto">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Icon name="LayoutDashboard" className="mr-2 h-4 w-4" />
               Дашборд
@@ -88,6 +90,14 @@ export default function Index() {
             <TabsTrigger value="cases" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Icon name="Package" className="mr-2 h-4 w-4" />
               Кейсы
+            </TabsTrigger>
+            <TabsTrigger value="cases-admin" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Icon name="Gift" className="mr-2 h-4 w-4" />
+              Призы
+            </TabsTrigger>
+            <TabsTrigger value="shop" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Icon name="ShoppingCart" className="mr-2 h-4 w-4" />
+              Магазин
             </TabsTrigger>
             <TabsTrigger value="settings" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Icon name="Settings" className="mr-2 h-4 w-4" />
@@ -113,6 +123,14 @@ export default function Index() {
 
           <TabsContent value="cases">
             <CasesTab />
+          </TabsContent>
+
+          <TabsContent value="cases-admin">
+            <CasesAdminTab />
+          </TabsContent>
+
+          <TabsContent value="shop">
+            <ShopAdminTab />
           </TabsContent>
 
           <TabsContent value="settings">

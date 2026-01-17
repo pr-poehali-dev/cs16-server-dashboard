@@ -204,6 +204,54 @@ def handler(event: dict, context) -> dict:
                 'isBase64Encoded': False
             }
         
+        if method == 'POST' and action == 'create':
+            body = json.loads(event.get('body', '{}'))
+            cur.execute(
+                """
+                INSERT INTO case_items (name, description, rarity, item_type, value, chance, icon)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+                RETURNING id
+                """,
+                (body['name'], body['description'], body['rarity'], body['type'], body['value'], body['chance'], body['icon'])
+            )
+            new_id = cur.fetchone()[0]
+            conn.commit()
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'id': new_id, 'message': 'Item created'}),
+                'isBase64Encoded': False
+            }
+        
+        if method == 'POST' and action == 'update':
+            body = json.loads(event.get('body', '{}'))
+            cur.execute(
+                """
+                UPDATE case_items 
+                SET name = %s, description = %s, rarity = %s, item_type = %s, value = %s, chance = %s, icon = %s
+                WHERE id = %s
+                """,
+                (body['name'], body['description'], body['rarity'], body['type'], body['value'], body['chance'], body['icon'], body['id'])
+            )
+            conn.commit()
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'message': 'Item updated'}),
+                'isBase64Encoded': False
+            }
+        
+        if method == 'POST' and action == 'delete':
+            body = json.loads(event.get('body', '{}'))
+            cur.execute("UPDATE case_items SET is_active = false WHERE id = %s", (body['id'],))
+            conn.commit()
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                'body': json.dumps({'message': 'Item deleted'}),
+                'isBase64Encoded': False
+            }
+        
         return {
             'statusCode': 404,
             'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
